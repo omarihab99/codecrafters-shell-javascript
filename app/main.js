@@ -8,19 +8,19 @@ const commandMapping = {
   exit: () => {
     process.exit(0);
   },
-  _: (command) => {
-    console.log(`${command}: command not found`);
-    prompt();
+  echo: (_, args) => {
+    console.log(args.join(" "));
   },
 };
 function prompt() {
   rl.question("$ ", (answer) => {
-    const command = answer.split(" ")[0];
+    const [command, ...args] = answer.split(" ");
     if (Object.hasOwn(commandMapping, command)) {
-      commandMapping[command]();
+      commandMapping[command](command, args);
     } else {
-      commandMapping._(command);
+      console.log(`${command}: command not found`);
     }
+    prompt();
   });
 }
 prompt();
