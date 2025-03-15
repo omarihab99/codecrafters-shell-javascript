@@ -45,6 +45,13 @@ const commandMapping = {
   pwd: (_, args) => {
     console.log(process.cwd());
   },
+  cd: (_, args) => {
+    try {
+      process.chdir(args.join(" "));
+    } catch (err) {
+      console.error(`cd: ${args.join(" ")}: No such file or directory`);
+    }
+  },
 };
 function prompt() {
   rl.question("$ ", (answer) => {
