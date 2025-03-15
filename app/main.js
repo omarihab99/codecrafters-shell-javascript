@@ -42,6 +42,9 @@ const commandMapping = {
       else console.log(`${command}: not found`);
     }
   },
+  pwd: (_, args) => {
+    console.log(process.cwd());
+  },
 };
 function prompt() {
   rl.question("$ ", (answer) => {
