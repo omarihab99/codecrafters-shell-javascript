@@ -46,10 +46,11 @@ const commandMapping = {
     console.log(process.cwd());
   },
   cd: (_, args) => {
+    const path = args.join(" ");
     try {
-      process.chdir(args.join(" "));
+      process.chdir(path === "~" ? process.env.HOME : path);
     } catch (err) {
-      console.error(`cd: ${args.join(" ")}: No such file or directory`);
+      console.error(`cd: ${path}: No such file or directory`);
     }
   },
 };
