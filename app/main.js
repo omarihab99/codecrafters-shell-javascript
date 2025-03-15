@@ -1,6 +1,7 @@
 const path = require("path");
 const readline = require("readline");
 const fs = require("fs");
+const { exec, execFileSync } = require("child_process");
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -48,7 +49,16 @@ function prompt() {
     if (commandMapping[command]) {
       commandMapping[command](command, args);
     } else {
-      console.log(`${command}: command not found`);
+      const result = isExecutableFound(command);
+      if (result.found) {
+        const commandParts = result.path.split("/");
+        execFileSync(`${commandParts.at(-1)}`, args, {
+          encoding: "utf-8",
+          stdio: "inherit",
+        });
+      } else {
+        console.log(`${command}: command not found`);
+      }
     }
     prompt();
   });
